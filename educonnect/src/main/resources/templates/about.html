@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('About')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container" style="padding-top:40px;padding-bottom:80px">
+
+    <!-- Header -->
+    <div class="text-center" style="max-width:580px;margin:0 auto 60px">
+        <div class="hero-label" style="justify-content:center">About Us</div>
+        <h1 style="font-size:2.2rem;margin:12px 0 16px">Built by Educators,<br>For Learners</h1>
+        <p class="text-muted">
+            EduConnect is a passion project by Group 20 – AMAL Coders,
+            built for CPAN-228 at Humber College.
+        </p>
+    </div>
+
+    <!-- Mission -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:64px">
+        <div>
+            <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:16px">Our Mission</h2>
+            <p style="color:rgba(248,250,252,0.75);line-height:1.8;margin-bottom:14px">
+                EduConnect bridges the gap between passionate educators and eager learners.
+                We believe quality education should be accessible to everyone, anywhere.
+            </p>
+            <p style="color:rgba(248,250,252,0.75);line-height:1.8">
+                Our platform enables instructors to create rich course content, manage assignments,
+                track student progress, and issue digital certificates upon completion.
+            </p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="stat-card"><div class="stat-value">12</div><div class="stat-label">Courses</div></div>
+            <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">User Roles</div></div>
+            <div class="stat-card"><div class="stat-value">7</div><div class="stat-label">Entities</div></div>
+            <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">Developers</div></div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <h2 class="section-title text-center">Platform Features</h2>
+    <p class="section-sub text-center">Everything you need for a complete learning experience</p>
+    <div class="grid-3" style="margin-bottom:64px">
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size:2.4rem;margin-bottom:12px">📚</div>
+                <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">Rich Course Catalog</h3>
+                <p class="text-muted" style="font-size:0.85rem">Browse courses across programming, mathematics, business, science, and more.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size:2.4rem;margin-bottom:12px">📈</div>
+                <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">Progress Tracking</h3>
+                <p class="text-muted" style="font-size:0.85rem">Real-time metrics on completion, grades, and upcoming deadlines.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size:2.4rem;margin-bottom:12px">🏆</div>
+                <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">Digital Certificates</h3>
+                <p class="text-muted" style="font-size:0.85rem">Verifiable certificates with unique codes, issued automatically on completion.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size:2.4rem;margin-bottom:12px">🔒</div>
+                <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">Role-Based Access</h3>
+                <p class="text-muted" style="font-size:0.85rem">Admin, Instructor, and Student roles with distinct permissions.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size:2.4rem;margin-bottom:12px">📝</div>
+                <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">Assignment Management</h3>
+                <p class="text-muted" style="font-size:0.85rem">Instructors create quizzes, labs, and projects. Students submit and get graded.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size:2.4rem;margin-bottom:12px">📢</div>
+                <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">Announcements</h3>
+                <p class="text-muted" style="font-size:0.85rem">Course-level announcements from instructors that students see instantly.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team -->
+    <h2 class="section-title text-center">Meet the Team</h2>
+    <p class="section-sub text-center">AMAL Coders – Group 20</p>
+    <div class="grid-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,201,167,0.15);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:var(--teal);margin:0 auto 12px">A</div>
+                <h4 style="font-size:0.95rem;font-weight:700">Ahmed Rahim</h4>
+                <p class="text-muted" style="font-size:0.78rem;margin-top:4px">AMAL Coders</p>
+            </div>
+        </div>
+        <div class="card text-center">
+            <div class="card-body">
+                <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,201,167,0.15);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:var(--teal);margin:0 auto 12px">M</div>
+                <h4 style="font-size:0.95rem;font-weight:700">Mohammed Darras</h4>
+                <p class="text-muted" style="font-size:0.78rem;margin-top:4px">AMAL Coders</p>
+            </div>
+        </div>
+        <div class="card text-center">
+            <div class="card-body">
+                <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,201,167,0.15);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:var(--teal);margin:0 auto 12px">A</div>
+                <h4 style="font-size:0.95rem;font-weight:700">Alaa Attia</h4>
+                <p class="text-muted" style="font-size:0.78rem;margin-top:4px">AMAL Coders</p>
+            </div>
+        </div>
+        <div class="card text-center">
+            <div class="card-body">
+                <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,201,167,0.15);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:var(--teal);margin:0 auto 12px">L</div>
+                <h4 style="font-size:0.95rem;font-weight:700">Lana Teibo</h4>
+                <p class="text-muted" style="font-size:0.78rem;margin-top:4px">AMAL Coders</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

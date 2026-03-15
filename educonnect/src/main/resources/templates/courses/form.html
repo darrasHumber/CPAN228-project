@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Add Course')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container-sm" style="padding-top:40px;padding-bottom:64px">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a th:href="@{/}">Home</a>
+        <span class="sep">/</span>
+        <a th:href="@{/courses}">Courses</a>
+        <span class="sep">/</span>
+        <span class="current">Add Course</span>
+    </div>
+
+    <div class="card">
+        <div class="card-header flex-between">
+            <div>
+                <h2 style="font-size:1.25rem;font-weight:800">Add New Course</h2>
+                <p class="text-muted mt-1" style="font-size:0.82rem">
+                    Fields marked <span style="color:var(--danger)">*</span> are required
+                </p>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <form th:action="@{/courses}" th:object="${course}" method="post" novalidate>
+
+                <!-- Course Code -->
+                <div class="form-group">
+                    <label class="form-label" for="courseCode">
+                        Course Code <span class="required">*</span>
+                    </label>
+                    <input type="text" id="courseCode"
+                           th:field="*{courseCode}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('courseCode')} ? 'is-invalid'"
+                           placeholder="e.g. CS101, MATH200"/>
+                    <div class="invalid-feedback" th:errors="*{courseCode}"></div>
+                    <p class="form-hint">Unique identifier (3–20 characters)</p>
+                </div>
+
+                <!-- Title -->
+                <div class="form-group">
+                    <label class="form-label" for="title">
+                        Course Title <span class="required">*</span>
+                    </label>
+                    <input type="text" id="title"
+                           th:field="*{title}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'"
+                           placeholder="e.g. Introduction to Python Programming"/>
+                    <div class="invalid-feedback" th:errors="*{title}"></div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label class="form-label" for="description">
+                        Description <span class="required">*</span>
+                    </label>
+                    <textarea id="description"
+                              th:field="*{description}"
+                              class="form-control"
+                              th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"
+                              rows="4"
+                              placeholder="Describe what students will learn…"></textarea>
+                    <div class="invalid-feedback" th:errors="*{description}"></div>
+                </div>
+
+                <!-- Instructor -->
+                <div class="form-group">
+                    <label class="form-label" for="instructorName">
+                        Instructor Name <span class="required">*</span>
+                    </label>
+                    <input type="text" id="instructorName"
+                           th:field="*{instructorName}"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('instructorName')} ? 'is-invalid'"
+                           placeholder="e.g. Dr. Sarah Chen"/>
+                    <div class="invalid-feedback" th:errors="*{instructorName}"></div>
+                </div>
+
+                <!-- Category + Status -->
+                <div class="form-row">
+                    <div class="form-group" style="margin-bottom:0">
+                        <label class="form-label" for="category">
+                            Category <span class="required">*</span>
+                        </label>
+                        <select id="category"
+                                th:field="*{category}"
+                                class="form-select"
+                                th:classappend="${#fields.hasErrors('category')} ? 'is-invalid'">
+                            <option value="">– Select Category –</option>
+                            <option th:each="cat : ${categories}"
+                                    th:value="${cat}"
+                                    th:text="${cat.name().charAt(0) + cat.name().substring(1).toLowerCase()}">
+                            </option>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{category}"></div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0">
+                        <label class="form-label" for="status">
+                            Status <span class="required">*</span>
+                        </label>
+                        <select id="status"
+                                th:field="*{status}"
+                                class="form-select"
+                                th:classappend="${#fields.hasErrors('status')} ? 'is-invalid'">
+                            <option value="">– Select Status –</option>
+                            <option th:each="st : ${statuses}"
+                                    th:value="${st}"
+                                    th:text="${st.name().charAt(0) + st.name().substring(1).toLowerCase()}">
+                            </option>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{status}"></div>
+                    </div>
+                </div>
+
+                <!-- Max Students + Duration -->
+                <div class="form-row" style="margin-top:20px">
+                    <div class="form-group" style="margin-bottom:0">
+                        <label class="form-label" for="maxStudents">
+                            Max Students <span class="required">*</span>
+                        </label>
+                        <input type="number" id="maxStudents"
+                               th:field="*{maxStudents}"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('maxStudents')} ? 'is-invalid'"
+                               min="1" max="500" placeholder="e.g. 50"/>
+                        <div class="invalid-feedback" th:errors="*{maxStudents}"></div>
+                        <p class="form-hint">Between 1 and 500</p>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0">
+                        <label class="form-label" for="durationWeeks">
+                            Duration (weeks) <span class="required">*</span>
+                        </label>
+                        <input type="number" id="durationWeeks"
+                               th:field="*{durationWeeks}"
+                               class="form-control"
+                               th:classappend="${#fields.hasErrors('durationWeeks')} ? 'is-invalid'"
+                               min="1" max="52" placeholder="e.g. 12"/>
+                        <div class="invalid-feedback" th:errors="*{durationWeeks}"></div>
+                        <p class="form-hint">Between 1 and 52 weeks</p>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-3 mt-4" style="padding-top:16px;border-top:1px solid var(--border)">
+                    <button type="submit" class="btn btn-primary">Save Course</button>
+                    <a th:href="@{/courses}" class="btn btn-ghost">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

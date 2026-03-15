@@ -1,5 +1,6 @@
-package com.amalcoders.educonnect.controller;
+package com.amalcoders.educonnect.controllers;
 
+import com.amalcoders.educonnect.services.CourseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,15 +8,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
+    private final CourseService courseService;
+
+    public HomeController(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("activePage", "home");
+        model.addAttribute("activePage",    "home");
+        model.addAttribute("totalCourses",  courseService.count());
         return "home";
     }
 
     @GetMapping("/about")
     public String about(Model model) {
-        model.addAttribute("activePage", "about");
+        model.addAttribute("activePage",   "about");
+        model.addAttribute("totalCourses", courseService.count());
         return "about";
     }
 

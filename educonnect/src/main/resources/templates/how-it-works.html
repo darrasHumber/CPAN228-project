@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('How It Works')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container" style="padding-top:40px;padding-bottom:80px">
+
+    <!-- Header -->
+    <div class="text-center" style="max-width:580px;margin:0 auto 60px">
+        <div class="hero-label" style="justify-content:center">Platform Guide</div>
+        <h1 style="font-size:2.2rem;margin:12px 0 16px">How EduConnect Works</h1>
+        <p class="text-muted">Three roles, one seamless experience.</p>
+    </div>
+
+    <!-- Role cards -->
+    <div class="grid-3" style="margin-bottom:64px">
+
+        <div class="card">
+            <div class="card-header" style="background:rgba(6,214,160,0.08);border-color:rgba(6,214,160,0.2)">
+                <div style="font-size:2rem;margin-bottom:8px">🎓</div>
+                <h3 style="font-size:1.1rem;font-weight:800;color:var(--success)">Student</h3>
+                <p class="text-muted" style="font-size:0.82rem;margin-top:4px">Learns, submits, earns</p>
+            </div>
+            <div class="card-body" style="padding-top:0">
+                <ul style="list-style:none;display:flex;flex-direction:column;gap:10px">
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--success);font-weight:700">✓</span> Browse course catalog</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--success);font-weight:700">✓</span> Enroll in active courses</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--success);font-weight:700">✓</span> Submit assignments</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--success);font-weight:700">✓</span> View grades &amp; feedback</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--success);font-weight:700">✓</span> Earn digital certificates</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" style="background:rgba(0,201,167,0.08);border-color:rgba(0,201,167,0.2)">
+                <div style="font-size:2rem;margin-bottom:8px">👩‍🏫</div>
+                <h3 style="font-size:1.1rem;font-weight:800;color:var(--teal)">Instructor</h3>
+                <p class="text-muted" style="font-size:0.82rem;margin-top:4px">Creates, teaches, grades</p>
+            </div>
+            <div class="card-body" style="padding-top:0">
+                <ul style="list-style:none;display:flex;flex-direction:column;gap:10px">
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--teal);font-weight:700">✓</span> Create &amp; manage own courses</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--teal);font-weight:700">✓</span> Publish assignments</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--teal);font-weight:700">✓</span> Grade submissions</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--teal);font-weight:700">✓</span> Post announcements</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:var(--teal);font-weight:700">✓</span> Track student progress</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" style="background:rgba(91,156,246,0.08);border-color:rgba(91,156,246,0.2)">
+                <div style="font-size:2rem;margin-bottom:8px">🛡️</div>
+                <h3 style="font-size:1.1rem;font-weight:800;color:#5b9cf6">Administrator</h3>
+                <p class="text-muted" style="font-size:0.82rem;margin-top:4px">Oversees everything</p>
+            </div>
+            <div class="card-body" style="padding-top:0">
+                <ul style="list-style:none;display:flex;flex-direction:column;gap:10px">
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:#5b9cf6;font-weight:700">✓</span> Manage all courses</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:#5b9cf6;font-weight:700">✓</span> Manage all users &amp; roles</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:#5b9cf6;font-weight:700">✓</span> View platform analytics</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:#5b9cf6;font-weight:700">✓</span> Edit &amp; delete any content</li>
+                    <li style="display:flex;align-items:center;gap:10px;font-size:0.875rem"><span style="color:#5b9cf6;font-weight:700">✓</span> Archive or remove courses</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Enrollment steps -->
+    <h2 class="section-title text-center">Student Enrollment Flow</h2>
+    <p class="section-sub text-center">From browsing to certification in 5 steps</p>
+    <div style="display:flex;align-items:flex-start;justify-content:center;flex-wrap:wrap;gap:8px;margin-bottom:64px">
+        <div style="text-align:center;padding:0 16px;min-width:120px">
+            <div style="width:52px;height:52px;border-radius:50%;background:var(--teal);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;margin:0 auto 12px">1</div>
+            <p style="font-weight:600;font-size:0.875rem">Browse Catalog</p>
+        </div>
+        <div style="text-align:center;padding:0 16px;min-width:120px">
+            <div style="width:52px;height:52px;border-radius:50%;background:rgba(0,201,167,0.15);border:2px solid var(--teal);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;margin:0 auto 12px">2</div>
+            <p style="font-weight:600;font-size:0.875rem">Enroll</p>
+        </div>
+        <div style="text-align:center;padding:0 16px;min-width:120px">
+            <div style="width:52px;height:52px;border-radius:50%;background:rgba(0,201,167,0.15);border:2px solid var(--teal);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;margin:0 auto 12px">3</div>
+            <p style="font-weight:600;font-size:0.875rem">Complete Work</p>
+        </div>
+        <div style="text-align:center;padding:0 16px;min-width:120px">
+            <div style="width:52px;height:52px;border-radius:50%;background:rgba(0,201,167,0.15);border:2px solid var(--teal);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;margin:0 auto 12px">4</div>
+            <p style="font-weight:600;font-size:0.875rem">Get Graded</p>
+        </div>
+        <div style="text-align:center;padding:0 16px;min-width:120px">
+            <div style="width:52px;height:52px;border-radius:50%;background:rgba(0,201,167,0.15);border:2px solid var(--teal);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;margin:0 auto 12px">5</div>
+            <p style="font-weight:600;font-size:0.875rem">Earn Certificate</p>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center">
+        <a th:href="@{/courses}" class="btn btn-primary btn-lg" style="margin-right:12px">Browse Courses</a>
+        <a th:href="@{/about}" class="btn btn-outline btn-lg">About Us</a>
+    </div>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

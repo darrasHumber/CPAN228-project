@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Home')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-label">
+      <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#00c9a7"/></svg>
+      Online Learning Platform
+    </div>
+    <h1 class="fade-up">Transform Your<br><span class="accent">Learning Journey</span></h1>
+    <p class="fade-up fade-up-1">
+      Discover courses taught by expert instructors. Learn at your own pace,
+      track your progress, and earn certificates.
+    </p>
+    <div class="flex gap-3 fade-up fade-up-2">
+      <a th:href="@{/courses}" class="btn btn-primary btn-lg">Browse Courses</a>
+      <a th:href="@{/how-it-works}" class="btn btn-outline btn-lg">How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="grid-4">
+      <div class="stat-card">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Courses Available</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">5K+</div>
+        <div class="stat-label">Active Students</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">3.2K</div>
+        <div class="stat-label">Certificates Issued</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Expert Instructors</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Browse by Category -->
+<section class="section" style="padding-top:8px;padding-bottom:80px">
+  <div class="container">
+    <h2 class="section-title">Browse by Category</h2>
+    <p class="section-sub">Find the subject that excites you</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <a th:href="@{/courses}" class="btn btn-ghost">Programming</a>
+      <a th:href="@{/courses}" class="btn btn-ghost">Mathematics</a>
+      <a th:href="@{/courses}" class="btn btn-ghost">Business</a>
+      <a th:href="@{/courses}" class="btn btn-ghost">Science</a>
+      <a th:href="@{/courses}" class="btn btn-ghost">Language</a>
+      <a th:href="@{/courses}" class="btn btn-ghost">Arts</a>
+    </div>
+  </div>
+</section>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

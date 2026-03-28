@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragments/head :: head(${course.title})}"></head>
 
@@ -9,11 +10,17 @@
 
 <div class="container py-4">
 
-    <!-- Flash success -->
+    <!-- Flash messages -->
     <div th:if="${successMessage}"
          class="alert alert-success alert-dismissible fade show" role="alert">
         <i class="bi bi-check-circle-fill me-2"></i>
         <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${errorMessage}"
+         class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${errorMessage}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
@@ -32,11 +39,12 @@
         <div class="col-lg-8">
             <div class="card shadow-sm">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span class="badge bg-primary fs-6" th:text="${course.courseCode}">CODE</span>
+          <span class="badge bg-primary fs-6"
+                th:text="${course.courseCode}">CODE</span>
                     <span class="badge"
-                          th:classappend="${course.status.name() == 'ACTIVE'}      ? 'bg-success' :
+                          th:classappend="${course.status.name() == 'ACTIVE'}      ? 'bg-success'           :
                                  (${course.status.name() == 'DRAFT'}     ? 'bg-warning text-dark' :
-                                 (${course.status.name() == 'COMPLETED'} ? 'bg-secondary' : 'bg-dark'))"
+                                 (${course.status.name() == 'COMPLETED'} ? 'bg-secondary'         : 'bg-dark'))"
                           th:text="${course.status.name().charAt(0) + course.status.name().substring(1).toLowerCase()}">
           </span>
                 </div>
@@ -53,6 +61,8 @@
 
         <!-- Sidebar -->
         <div class="col-lg-4">
+
+            <!-- Course details -->
             <div class="card shadow-sm mb-3">
                 <div class="card-header fw-semibold bg-light">
                     <i class="bi bi-info-circle me-2"></i>Course Details
@@ -74,8 +84,11 @@
                         <strong th:text="${course.durationWeeks + ' weeks'}">12 weeks</strong>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
-                        <span class="text-muted">Max Students</span>
-                        <strong th:text="${course.maxStudents}">50</strong>
+                        <span class="text-muted">Capacity</span>
+                        <strong>
+                            <span th:text="${enrolledCount}">0</span> /
+                            <span th:text="${course.maxStudents}">50</span>
+                        </strong>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span class="text-muted">Course ID</span>
@@ -84,22 +97,68 @@
                     <li class="list-group-item d-flex justify-content-between">
                         <span class="text-muted">Created</span>
                         <small class="text-muted"
-                               th:text="${#temporals.format(course.createdAt, 'MMM d, yyyy')}">Jan 1, 2026</small>
+                               th:text="${#temporals.format(course.createdAt, 'MMM d, yyyy')}">
+                        </small>
                     </li>
                 </ul>
             </div>
 
-            <!-- Actions -->
-            <div class="d-grid gap-2">
+            <!-- Enroll / Drop — STUDENT only, ACTIVE courses only -->
+            <div sec:authorize="hasRole('STUDENT')">
+
+                <!-- Already enrolled → show Drop button -->
+                <div th:if="${isEnrolled}">
+                    <div class="alert alert-success d-flex align-items-center mb-3">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        You are enrolled in this course!
+                    </div>
+                    <form th:action="@{/courses/{id}/drop(id=${course.courseId})}"
+                          method="post"
+                          onsubmit="return confirm('Are you sure you want to drop this course?')">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-x-circle me-2"></i>Drop Course
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Not enrolled → show Enroll button (only for ACTIVE courses) -->
+                <div th:if="${!isEnrolled}">
+                    <form th:if="${course.status.name() == 'ACTIVE'}"
+                          th:action="@{/courses/{id}/enroll(id=${course.courseId})}"
+                          method="post">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-plus-circle me-2"></i>Enroll Now
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Course not active -->
+                    <div th:unless="${course.status.name() == 'ACTIVE'}"
+                         class="alert alert-warning text-center">
+                        <i class="bi bi-lock me-2"></i>
+                        Enrollment not available — course is
+                        <span th:text="${course.status.name().toLowerCase()}">inactive</span>.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action buttons -->
+            <div class="d-grid gap-2 mt-3">
                 <a th:href="@{/courses}" class="btn btn-outline-primary">
                     <i class="bi bi-arrow-left me-2"></i>Back to All Courses
                 </a>
-                <a th:href="@{/courses/new}" class="btn btn-primary">
+                <!-- Add another — ADMIN + INSTRUCTOR only -->
+                <a th:href="@{/courses/new}"
+                   sec:authorize="hasAnyRole('ADMIN','INSTRUCTOR')"
+                   class="btn btn-primary">
                     <i class="bi bi-plus-circle me-2"></i>Add Another Course
                 </a>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
 

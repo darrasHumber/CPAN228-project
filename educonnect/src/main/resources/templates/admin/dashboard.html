@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head('Admin Dashboard')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">
+                <i class="bi bi-shield-fill text-warning me-2"></i>Admin Dashboard
+            </h2>
+            <p class="text-muted small mt-1">Manage courses and users</p>
+        </div>
+        <a th:href="@{/courses/new}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i>Add Course
+        </a>
+    </div>
+
+    <!-- Flash message -->
+    <div th:if="${successMessage}"
+         class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Stats row -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 bg-primary text-white shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-book-fill fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${totalCourses}">0</h3>
+                        <p class="mb-0 small">Total Courses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 bg-success text-white shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-people-fill fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${totalUsers}">0</h3>
+                        <p class="mb-0 small">Total Users</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 bg-warning text-dark shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-person-fill-gear fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0">ADMIN</h3>
+                        <p class="mb-0 small">
+                            Logged in as <span sec:authentication="name">admin</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Courses table -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white fw-semibold">
+            <i class="bi bi-table me-2"></i>All Courses
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-secondary">
+                <tr>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Instructor</th>
+                    <th>Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <!-- Empty state -->
+                <tr th:if="${courses.empty}">
+                    <td colspan="6" class="text-center py-4 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                        No courses found.
+                    </td>
+                </tr>
+
+                <!-- Course rows -->
+                <tr th:each="course : ${courses}">
+                    <td><code th:text="${course.courseCode}">CODE</code></td>
+                    <td class="fw-semibold" th:text="${course.title}">Title</td>
+                    <td>
+              <span class="badge"
+                    th:classappend="${course.category.name() == 'MATHEMATICS'} ? 'bg-warning text-dark' :
+                                     (${course.category.name() == 'BUSINESS'}  ? 'bg-info text-dark'    :
+                                     (${course.category.name() == 'SCIENCE'}   ? 'bg-info text-dark'    :
+                                     (${course.category.name() == 'LANGUAGE'}  ? 'bg-secondary'         :
+                                     (${course.category.name() == 'ARTS'}      ? 'bg-danger'            : 'bg-primary'))))"
+                    th:text="${course.category.name().charAt(0) + course.category.name().substring(1).toLowerCase()}">
+              </span>
+                    </td>
+                    <td class="text-muted" th:text="${course.instructorName}">Instructor</td>
+                    <td>
+              <span class="badge"
+                    th:classappend="${course.status.name() == 'ACTIVE'}      ? 'bg-success'           :
+                                     (${course.status.name() == 'DRAFT'}     ? 'bg-warning text-dark' :
+                                     (${course.status.name() == 'COMPLETED'} ? 'bg-secondary'         : 'bg-dark'))"
+                    th:text="${course.status.name().charAt(0) + course.status.name().substring(1).toLowerCase()}">
+              </span>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+
+                            <!-- Edit -->
+                            <a th:href="@{/admin/courses/edit/{id}(id=${course.courseId})}"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </a>
+
+                            <!-- Delete -->
+                            <form th:action="@{/admin/courses/delete/{id}(id=${course.courseId})}"
+                                  method="post"
+                                  onsubmit="return confirm('Delete this course? This cannot be undone.')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash me-1"></i>Delete
+                                </button>
+                            </form>
+
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

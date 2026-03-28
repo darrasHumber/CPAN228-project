@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Edit Course')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/admin}">Admin</a></li>
+                    <li class="breadcrumb-item active">Edit Course</li>
+                </ol>
+            </nav>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark fw-semibold">
+                    <i class="bi bi-pencil-fill me-2"></i>
+                    Edit Course — <span th:text="${course.courseCode}">CODE</span>
+                </div>
+                <div class="card-body p-4">
+
+                    <form th:action="@{/admin/courses/edit/{id}(id=${course.courseId})}"
+                          th:object="${course}"
+                          method="post" novalidate>
+
+                        <!-- Course Code -->
+                        <div class="mb-3">
+                            <label for="courseCode" class="form-label fw-semibold">
+                                Course Code <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" id="courseCode"
+                                   th:field="*{courseCode}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('courseCode')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{courseCode}"></div>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-semibold">
+                                Course Title <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" id="title"
+                                   th:field="*{title}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{title}"></div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label fw-semibold">
+                                Description <span class="text-danger">*</span>
+                            </label>
+                            <textarea id="description"
+                                      th:field="*{description}"
+                                      class="form-control"
+                                      th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"
+                                      rows="4"></textarea>
+                            <div class="invalid-feedback" th:errors="*{description}"></div>
+                        </div>
+
+                        <!-- Instructor -->
+                        <div class="mb-3">
+                            <label for="instructorName" class="form-label fw-semibold">
+                                Instructor Name <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" id="instructorName"
+                                   th:field="*{instructorName}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('instructorName')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{instructorName}"></div>
+                        </div>
+
+                        <!-- Category + Status -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="category" class="form-label fw-semibold">
+                                    Category <span class="text-danger">*</span>
+                                </label>
+                                <select id="category"
+                                        th:field="*{category}"
+                                        class="form-select"
+                                        th:classappend="${#fields.hasErrors('category')} ? 'is-invalid'">
+                                    <option th:each="cat : ${categories}"
+                                            th:value="${cat}"
+                                            th:text="${cat.name().charAt(0) + cat.name().substring(1).toLowerCase()}">
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{category}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="status" class="form-label fw-semibold">
+                                    Status <span class="text-danger">*</span>
+                                </label>
+                                <select id="status"
+                                        th:field="*{status}"
+                                        class="form-select"
+                                        th:classappend="${#fields.hasErrors('status')} ? 'is-invalid'">
+                                    <option th:each="st : ${statuses}"
+                                            th:value="${st}"
+                                            th:text="${st.name().charAt(0) + st.name().substring(1).toLowerCase()}">
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{status}"></div>
+                            </div>
+                        </div>
+
+                        <!-- Max Students + Duration -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="maxStudents" class="form-label fw-semibold">
+                                    Max Students <span class="text-danger">*</span>
+                                </label>
+                                <input type="number" id="maxStudents"
+                                       th:field="*{maxStudents}"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('maxStudents')} ? 'is-invalid'"
+                                       min="1" max="500"/>
+                                <div class="invalid-feedback" th:errors="*{maxStudents}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="durationWeeks" class="form-label fw-semibold">
+                                    Duration (weeks) <span class="text-danger">*</span>
+                                </label>
+                                <input type="number" id="durationWeeks"
+                                       th:field="*{durationWeeks}"
+                                       class="form-control"
+                                       th:classappend="${#fields.hasErrors('durationWeeks')} ? 'is-invalid'"
+                                       min="1" max="52"/>
+                                <div class="invalid-feedback" th:errors="*{durationWeeks}"></div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-warning text-dark px-4 fw-semibold">
+                                <i class="bi bi-save me-2"></i>Save Changes
+                            </button>
+                            <a th:href="@{/admin}" class="btn btn-outline-secondary px-4">Cancel</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

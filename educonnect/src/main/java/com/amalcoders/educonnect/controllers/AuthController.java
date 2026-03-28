@@ -19,7 +19,13 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // ── GET /register — show form ─────────────
+    // ── GET /login — show login page ──────────
+    @GetMapping("/login")
+    public String showLogin() {
+        return "auth/login";
+    }
+
+    // ── GET /register — show register form ────
     @GetMapping("/register")
     public String showRegister(Model model) {
         model.addAttribute("user", new User());
@@ -34,19 +40,16 @@ public class AuthController {
             Model model,
             RedirectAttributes redirectAttributes
     ) {
-        // Check for duplicate username
         if (userService.usernameExists(user.getUsername())) {
             result.rejectValue("username", "error.user",
                     "Username already taken");
         }
 
-        // Check for duplicate email
         if (userService.emailExists(user.getEmail())) {
             result.rejectValue("email", "error.user",
                     "Email already registered");
         }
 
-        // Return to form if there are errors
         if (result.hasErrors()) {
             return "auth/register";
         }

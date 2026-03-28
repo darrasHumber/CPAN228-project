@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head('Instructor Dashboard')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">
+                <i class="bi bi-person-video3 text-primary me-2"></i>
+                Welcome, <span th:text="${currentUser.firstName}">Instructor</span>!
+            </h2>
+            <p class="text-muted small mt-1">Your teaching dashboard</p>
+        </div>
+        <a th:href="@{/courses/new}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i>New Course
+        </a>
+    </div>
+
+    <!-- Stats row -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 bg-primary text-white shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-journal-richtext fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${totalCourses}">0</h3>
+                        <p class="mb-0 small">My Courses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-success text-white shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-people-fill fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${totalStudents}">0</h3>
+                        <p class="mb-0 small">Total Students</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-info text-white shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-play-circle-fill fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${activeCourses}">0</h3>
+                        <p class="mb-0 small">Active Courses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-warning text-dark shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-pencil-square fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${draftCourses}">0</h3>
+                        <p class="mb-0 small">Draft Courses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Courses table with stats -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white fw-semibold">
+            <i class="bi bi-table me-2"></i>My Courses
+        </div>
+
+        <!-- Empty state -->
+        <div th:if="${courseStats.empty}" class="card-body text-center py-5 text-muted">
+            <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+            <p class="mb-3">You haven't created any courses yet.</p>
+            <a th:href="@{/courses/new}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i>Create First Course
+            </a>
+        </div>
+
+        <!-- Courses table -->
+        <div class="table-responsive" th:unless="${courseStats.empty}">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-secondary">
+                <tr>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th class="text-center">Students Enrolled</th>
+                    <th class="text-center">Capacity</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry : ${courseStats}">
+                    <td><code th:text="${entry.key.courseCode}">CODE</code></td>
+                    <td>
+                        <a th:href="@{/courses/{id}(id=${entry.key.courseId})}"
+                           class="fw-semibold text-decoration-none"
+                           th:text="${entry.key.title}">Title</a>
+                    </td>
+                    <td>
+              <span class="badge"
+                    th:classappend="${entry.key.category.name() == 'MATHEMATICS'} ? 'bg-warning text-dark' :
+                                     (${entry.key.category.name() == 'BUSINESS'}  ? 'bg-info text-dark'    :
+                                     (${entry.key.category.name() == 'SCIENCE'}   ? 'bg-info text-dark'    :
+                                     (${entry.key.category.name() == 'LANGUAGE'}  ? 'bg-secondary'         :
+                                     (${entry.key.category.name() == 'ARTS'}      ? 'bg-danger'            : 'bg-primary'))))"
+                    th:text="${entry.key.category.name().charAt(0) + entry.key.category.name().substring(1).toLowerCase()}">
+              </span>
+                    </td>
+                    <td>
+              <span class="badge"
+                    th:classappend="${entry.key.status.name() == 'ACTIVE'}      ? 'bg-success'           :
+                                     (${entry.key.status.name() == 'DRAFT'}     ? 'bg-warning text-dark' :
+                                     (${entry.key.status.name() == 'COMPLETED'} ? 'bg-secondary'         : 'bg-dark'))"
+                    th:text="${entry.key.status.name().charAt(0) + entry.key.status.name().substring(1).toLowerCase()}">
+              </span>
+                    </td>
+
+                    <!-- Enrolled count with progress bar -->
+                    <td class="text-center">
+                        <span class="fw-bold" th:text="${entry.value}">0</span>
+                    </td>
+
+                    <!-- Capacity with progress bar -->
+                    <td style="min-width:140px">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="progress flex-grow-1" style="height:8px">
+                                <div class="progress-bar"
+                                     th:classappend="${(entry.value * 100 / entry.key.maxStudents) >= 90} ? 'bg-danger' :
+                                        (${(entry.value * 100 / entry.key.maxStudents)} >= 70 ? 'bg-warning' : 'bg-success')"
+                                     role="progressbar"
+                                     th:style="'width:' + ${entry.key.maxStudents > 0 ? (entry.value * 100 / entry.key.maxStudents) : 0} + '%'">
+                                </div>
+                            </div>
+                            <small class="text-muted text-nowrap"
+                                   th:text="${entry.value + '/' + entry.key.maxStudents}">0/50</small>
+                        </div>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                            <a th:href="@{/instructor/courses/{id}/students(id=${entry.key.courseId})}"
+                               class="btn btn-sm btn-outline-success"
+                               title="View Students">
+                                <i class="bi bi-people me-1"></i>Students
+                            </a>
+                            <a th:href="@{/courses/{id}(id=${entry.key.courseId})}"
+                               class="btn btn-sm btn-outline-primary"
+                               title="View Course">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

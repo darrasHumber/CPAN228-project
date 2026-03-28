@@ -33,11 +33,4 @@ public class HomeController {
         model.addAttribute("activePage", "how-it-works");
         return "how-it-works";
     }
-
-    // ── Temporary placeholder ─────────────────
-    // Will be replaced by InstructorController in Branch 10
-    @GetMapping("/instructor")
-    public String instructor() {
-        return "redirect:/courses";
-    }
 }

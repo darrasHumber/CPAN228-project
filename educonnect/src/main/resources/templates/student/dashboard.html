@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head('My Dashboard')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">
+                <i class="bi bi-person-circle text-primary me-2"></i>
+                Welcome, <span th:text="${currentUser.firstName}">Student</span>!
+            </h2>
+            <p class="text-muted small mt-1">Your learning dashboard</p>
+        </div>
+        <a th:href="@{/courses}" class="btn btn-primary">
+            <i class="bi bi-search me-1"></i>Browse Courses
+        </a>
+    </div>
+
+    <!-- Stats row -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 bg-primary text-white shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-book-fill fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${totalEnrolled}">0</h3>
+                        <p class="mb-0 small">Total Enrolled</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 bg-success text-white shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-play-circle-fill fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${active}">0</h3>
+                        <p class="mb-0 small">In Progress</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 bg-warning text-dark shadow-sm">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <i class="bi bi-award-fill fs-1 opacity-75"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0" th:text="${completed}">0</h3>
+                        <p class="mb-0 small">Completed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Courses -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white fw-semibold">
+            <i class="bi bi-journal-richtext me-2"></i>My Courses
+        </div>
+
+        <!-- Empty state -->
+        <div th:if="${enrollments.empty}" class="card-body text-center py-5 text-muted">
+            <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+            <p class="mb-3">You haven't enrolled in any courses yet.</p>
+            <a th:href="@{/courses}" class="btn btn-primary">
+                <i class="bi bi-search me-2"></i>Browse Courses
+            </a>
+        </div>
+
+        <!-- Courses list -->
+        <div class="list-group list-group-flush" th:unless="${enrollments.empty}">
+            <div th:each="enrollment : ${enrollments}"
+                 class="list-group-item list-group-item-action p-3">
+                <div class="row align-items-center">
+
+                    <!-- Course info -->
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 rounded p-2">
+                                <i class="bi bi-book-fill text-primary fs-4"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0">
+                                    <a th:href="@{/courses/{id}(id=${enrollment.course.courseId})}"
+                                       class="text-decoration-none"
+                                       th:text="${enrollment.course.title}">Course Title</a>
+                                </h6>
+                                <small class="text-muted">
+                  <span class="code-pill"
+                        th:text="${enrollment.course.courseCode}">CODE</span>
+                                    &nbsp;·&nbsp;
+                                    <span th:text="${enrollment.course.instructorName}">Instructor</span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="col-md-2 text-center">
+            <span class="badge"
+                  th:classappend="${enrollment.course.category.name() == 'MATHEMATICS'} ? 'bg-warning text-dark' :
+                                   (${enrollment.course.category.name() == 'BUSINESS'}  ? 'bg-info text-dark'    :
+                                   (${enrollment.course.category.name() == 'SCIENCE'}   ? 'bg-info text-dark'    :
+                                   (${enrollment.course.category.name() == 'LANGUAGE'}  ? 'bg-secondary'         :
+                                   (${enrollment.course.category.name() == 'ARTS'}      ? 'bg-danger'            : 'bg-primary'))))"
+                  th:text="${enrollment.course.category.name().charAt(0) + enrollment.course.category.name().substring(1).toLowerCase()}">
+            </span>
+                    </div>
+
+                    <!-- Enrollment status -->
+                    <div class="col-md-2 text-center">
+            <span class="badge"
+                  th:classappend="${enrollment.status.name() == 'ACTIVE'}      ? 'bg-success'           :
+                                   (${enrollment.status.name() == 'COMPLETED'} ? 'bg-warning text-dark' : 'bg-secondary')"
+                  th:text="${enrollment.status.name().charAt(0) + enrollment.status.name().substring(1).toLowerCase()}">
+            </span>
+                    </div>
+
+                    <!-- Enrolled date + action -->
+                    <div class="col-md-2 text-end">
+                        <small class="text-muted d-block mb-1"
+                               th:text="${#temporals.format(enrollment.enrolledAt, 'MMM d, yyyy')}">
+                        </small>
+                        <a th:href="@{/courses/{id}(id=${enrollment.course.courseId})}"
+                           class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye me-1"></i>View
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

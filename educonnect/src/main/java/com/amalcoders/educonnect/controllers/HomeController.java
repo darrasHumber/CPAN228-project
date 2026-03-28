@@ -16,8 +16,8 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("activePage",    "home");
-        model.addAttribute("totalCourses",  courseService.count());
+        model.addAttribute("activePage",   "home");
+        model.addAttribute("totalCourses", courseService.count());
         return "home";
     }
 
@@ -32,5 +32,12 @@ public class HomeController {
     public String howItWorks(Model model) {
         model.addAttribute("activePage", "how-it-works");
         return "how-it-works";
+    }
+
+    // ── Temporary placeholder ─────────────────
+    // Will be replaced by InstructorController in Branch 10
+    @GetMapping("/instructor")
+    public String instructor() {
+        return "redirect:/courses";
     }
 }

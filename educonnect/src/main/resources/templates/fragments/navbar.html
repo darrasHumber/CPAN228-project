@@ -2,27 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<nav th:fragment="navbar" class="navbar">
-
-    <a th:href="@{/}" class="navbar-brand">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="#00c9a7"/>
-            <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="#00c9a7" opacity=".6"/>
-        </svg>
-        Edu<span class="logo-dot">Connect</span>
-    </a>
-
-    <div class="nav-links">
-        <a th:href="@{/}"            th:classappend="${activePage == 'home'}         ? ' active'">Home</a>
-        <a th:href="@{/courses}"     th:classappend="${activePage == 'courses'}      ? ' active'">Courses</a>
-        <a th:href="@{/about}"       th:classappend="${activePage == 'about'}        ? ' active'">About</a>
-        <a th:href="@{/how-it-works}"th:classappend="${activePage == 'how-it-works'} ? ' active'">How It Works</a>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}">
+            <i class="bi bi-mortarboard-fill me-2"></i>EduConnect
+        </a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}"
+                       th:classappend="${activePage == 'home'} ? ' active'">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/courses}"
+                       th:classappend="${activePage == 'courses'} ? ' active'">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}"
+                       th:classappend="${activePage == 'about'} ? ' active'">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/how-it-works}"
+                       th:classappend="${activePage == 'how-it-works'} ? ' active'">How It Works</a>
+                </li>
+            </ul>
+            <a th:href="@{/courses/new}" class="btn btn-light btn-sm fw-semibold">
+                <i class="bi bi-plus-circle me-1"></i>Add Course
+            </a>
+        </div>
     </div>
-
-    <div class="nav-actions">
-        <a th:href="@{/courses/new}" class="btn btn-primary btn-sm">+ Add Course</a>
-    </div>
-
 </nav>
 
 </body>

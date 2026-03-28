@@ -8,60 +8,85 @@
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
 <!-- Hero -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-label">
-      <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#00c9a7"/></svg>
-      Online Learning Platform
-    </div>
-    <h1 class="fade-up">Transform Your<br><span class="accent">Learning Journey</span></h1>
-    <p class="fade-up fade-up-1">
-      Discover courses taught by expert instructors. Learn at your own pace,
-      track your progress, and earn certificates.
-    </p>
-    <div class="flex gap-3 fade-up fade-up-2">
-      <a th:href="@{/courses}" class="btn btn-primary btn-lg">Browse Courses</a>
-      <a th:href="@{/how-it-works}" class="btn btn-outline btn-lg">How It Works</a>
+<section class="bg-primary text-white py-5">
+  <div class="container py-3">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h1 class="display-4 fw-bold mb-3">Transform Your<br>Learning Journey</h1>
+        <p class="lead mb-4">
+          Discover courses taught by expert instructors. Learn at your own pace,
+          track your progress, and earn certificates.
+        </p>
+        <a th:href="@{/courses}" class="btn btn-light btn-lg fw-semibold me-2">
+          <i class="bi bi-search me-2"></i>Browse Courses
+        </a>
+        <a th:href="@{/how-it-works}" class="btn btn-outline-light btn-lg">
+          How It Works
+        </a>
+      </div>
+      <div class="col-lg-5 text-center d-none d-lg-block">
+        <i class="bi bi-mortarboard-fill" style="font-size:8rem;opacity:0.2"></i>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Stats -->
-<section class="section" style="padding-top:0">
+<section class="py-5 bg-light">
   <div class="container">
-    <div class="grid-4">
-      <div class="stat-card">
-        <div class="stat-value" th:text="${totalCourses}">0</div>
-        <div class="stat-label">Courses Available</div>
+    <div class="row g-4 text-center">
+      <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm h-100 py-3">
+          <div class="card-body">
+            <i class="bi bi-book-fill text-primary fs-1 mb-2"></i>
+            <h3 class="fw-bold" th:text="${totalCourses}">0</h3>
+            <p class="text-muted mb-0">Courses Available</p>
+          </div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-value">5K+</div>
-        <div class="stat-label">Active Students</div>
+      <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm h-100 py-3">
+          <div class="card-body">
+            <i class="bi bi-people-fill text-success fs-1 mb-2"></i>
+            <h3 class="fw-bold">5K+</h3>
+            <p class="text-muted mb-0">Active Students</p>
+          </div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-value">3.2K</div>
-        <div class="stat-label">Certificates Issued</div>
+      <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm h-100 py-3">
+          <div class="card-body">
+            <i class="bi bi-award-fill text-warning fs-1 mb-2"></i>
+            <h3 class="fw-bold">3.2K</h3>
+            <p class="text-muted mb-0">Certificates Issued</p>
+          </div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-value">4</div>
-        <div class="stat-label">Expert Instructors</div>
+      <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm h-100 py-3">
+          <div class="card-body">
+            <i class="bi bi-person-video3 text-info fs-1 mb-2"></i>
+            <h3 class="fw-bold">4</h3>
+            <p class="text-muted mb-0">Expert Instructors</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Browse by Category -->
-<section class="section" style="padding-top:8px;padding-bottom:80px">
+<section class="py-5">
   <div class="container">
-    <h2 class="section-title">Browse by Category</h2>
-    <p class="section-sub">Find the subject that excites you</p>
-    <div style="display:flex;flex-wrap:wrap;gap:12px">
-      <a th:href="@{/courses}" class="btn btn-ghost">Programming</a>
-      <a th:href="@{/courses}" class="btn btn-ghost">Mathematics</a>
-      <a th:href="@{/courses}" class="btn btn-ghost">Business</a>
-      <a th:href="@{/courses}" class="btn btn-ghost">Science</a>
-      <a th:href="@{/courses}" class="btn btn-ghost">Language</a>
-      <a th:href="@{/courses}" class="btn btn-ghost">Arts</a>
+    <h2 class="fw-bold mb-2">Browse by Category</h2>
+    <p class="text-muted mb-4">Find the subject that excites you</p>
+    <div class="d-flex flex-wrap gap-2">
+      <a th:href="@{/courses(category='PROGRAMMING')}"  class="btn btn-outline-primary">💻 Programming</a>
+      <a th:href="@{/courses(category='MATHEMATICS')}"  class="btn btn-outline-primary">📐 Mathematics</a>
+      <a th:href="@{/courses(category='BUSINESS')}"     class="btn btn-outline-primary">📊 Business</a>
+      <a th:href="@{/courses(category='SCIENCE')}"      class="btn btn-outline-primary">🔬 Science</a>
+      <a th:href="@{/courses(category='LANGUAGE')}"     class="btn btn-outline-primary">🗣 Language</a>
+      <a th:href="@{/courses(category='ARTS')}"         class="btn btn-outline-primary">🎨 Arts</a>
     </div>
   </div>
 </section>

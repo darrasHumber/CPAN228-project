@@ -12,18 +12,17 @@ import java.util.Optional;
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
-    // All enrollments for a student
     List<Enrollment> findByStudent(User student);
 
-    // All enrollments for a course
     List<Enrollment> findByCourse(Course course);
 
-    // Check if student is already enrolled
     boolean existsByStudentAndCourse(User student, Course course);
 
-    // Find specific enrollment
     Optional<Enrollment> findByStudentAndCourse(User student, Course course);
 
-    // Count students enrolled in a course
     long countByCourse(Course course);
+
+    // ── Delete all enrollments for a course ───
+    // Called before deleting a course
+    void deleteByCourse(Course course);
 }

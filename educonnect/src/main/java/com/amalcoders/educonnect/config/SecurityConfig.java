@@ -1,6 +1,5 @@
 package com.amalcoders.educonnect.config;
 
-
 import com.amalcoders.educonnect.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,8 +30,8 @@ public class SecurityConfig {
     }
 
     // ── Authentication Provider ───────────────
-    // Spring Security 7 (Boot 4.x): UserDetailsService
-    // is now passed via constructor, not setUserDetailsService()
+    // Spring Boot 4.x / Spring Security 7:
+    // UserDetailsService passed via constructor
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider =
@@ -55,7 +54,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
 
-                        // Public pages
+                        // ── Public — no login needed ──────────
                         .requestMatchers(
                                 "/", "/about", "/how-it-works",
                                 "/login", "/register",
@@ -63,17 +62,19 @@ public class SecurityConfig {
                                 "/h2-console/**"
                         ).permitAll()
 
-                        // Admin only
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        // ── Admin only ────────────────────────
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
 
-                        // Admin + Instructor only
+                        // ── Admin + Instructor only ───────────
                         .requestMatchers("/courses/new", "/courses/edit/**")
                         .hasAnyRole("ADMIN", "INSTRUCTOR")
 
-                        // Any logged-in user
-                        .requestMatchers("/courses", "/courses/**").authenticated()
+                        // ── Any logged-in user ────────────────
+                        .requestMatchers("/courses", "/courses/**")
+                        .authenticated()
 
-                        // Everything else needs login
+                        // ── Everything else needs login ───────
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -87,6 +88,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )
+                // Allow H2 console (uses iframes)
                 .headers(headers -> headers
                         .frameOptions(frame -> frame.disable())
                 )

@@ -1,6 +1,6 @@
 package com.amalcoders.educonnect.controllers;
 
-
+import com.amalcoders.educonnect.models.Role;
 import com.amalcoders.educonnect.models.User;
 import com.amalcoders.educonnect.services.UserService;
 import jakarta.validation.Valid;
@@ -19,27 +19,33 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // ── GET /login — show login page ──────────
+    // ── GET /login ────────────────────────────
     @GetMapping("/login")
     public String showLogin() {
         return "auth/login";
     }
 
-    // ── GET /register — show register form ────
+    // ── GET /register ─────────────────────────
     @GetMapping("/register")
     public String showRegister(Model model) {
         model.addAttribute("user", new User());
         return "auth/register";
     }
 
-    // ── POST /register — save user ────────────
+    // ── POST /register ────────────────────────
     @PostMapping("/register")
     public String register(
             @Valid @ModelAttribute("user") User user,
             BindingResult result,
-            Model model,
             RedirectAttributes redirectAttributes
     ) {
+        // Validate role — only STUDENT or INSTRUCTOR allowed
+        if (user.getRole() == null ||
+                user.getRole() == Role.ADMIN) {
+            result.rejectValue("role", "error.user",
+                    "Please select Student or Instructor");
+        }
+
         if (userService.usernameExists(user.getUsername())) {
             result.rejectValue("username", "error.user",
                     "Username already taken");
@@ -60,4 +66,3 @@ public class AuthController {
         return "redirect:/login";
     }
 }
-

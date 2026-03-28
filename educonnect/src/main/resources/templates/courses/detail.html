@@ -7,115 +7,100 @@
 
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<div class="container" style="padding-top:40px;padding-bottom:64px">
+<div class="container py-4">
 
     <!-- Flash success -->
-    <div th:if="${successMessage}" class="alert alert-success" data-auto-dismiss>
+    <div th:if="${successMessage}"
+         class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
         <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
     <!-- Breadcrumb -->
-    <div class="breadcrumb">
-        <a th:href="@{/}">Home</a>
-        <span class="sep">/</span>
-        <a th:href="@{/courses}">Courses</a>
-        <span class="sep">/</span>
-        <span class="current" th:text="${course.courseCode}">CODE</span>
-    </div>
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/courses}">Courses</a></li>
+            <li class="breadcrumb-item active" th:text="${course.courseCode}">CODE</li>
+        </ol>
+    </nav>
 
-    <div style="display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start">
+    <div class="row g-4">
 
         <!-- Main card -->
-        <div class="card">
-            <div class="card-header">
-                <div class="flex-between">
-          <span class="code-pill" style="font-size:0.95rem;padding:4px 12px"
-                th:text="${course.courseCode}">CODE</span>
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span class="badge bg-primary fs-6" th:text="${course.courseCode}">CODE</span>
                     <span class="badge"
-                          th:classappend="${course.status.name() == 'ACTIVE'}  ? 'badge-success' :
-                                 (${course.status.name() == 'DRAFT'} ? 'badge-yellow'  : 'badge-gray')"
+                          th:classappend="${course.status.name() == 'ACTIVE'}      ? 'bg-success' :
+                                 (${course.status.name() == 'DRAFT'}     ? 'bg-warning text-dark' :
+                                 (${course.status.name() == 'COMPLETED'} ? 'bg-secondary' : 'bg-dark'))"
                           th:text="${course.status.name().charAt(0) + course.status.name().substring(1).toLowerCase()}">
           </span>
                 </div>
-                <h1 style="font-size:1.6rem;font-weight:800;margin:14px 0 6px"
-                    th:text="${course.title}">Title</h1>
-                <p class="text-muted" style="font-size:0.9rem"
-                   th:text="${course.instructorName}">Instructor</p>
-            </div>
-            <div class="card-body" style="padding-top:0">
-                <p style="color:rgba(248,250,252,0.8);line-height:1.7"
-                   th:text="${course.description}">Description</p>
+                <div class="card-body">
+                    <h3 class="fw-bold mb-1" th:text="${course.title}">Title</h3>
+                    <p class="text-muted mb-3">
+                        <i class="bi bi-person-fill me-1"></i>
+                        <span th:text="${course.instructorName}">Instructor</span>
+                    </p>
+                    <p th:text="${course.description}">Description</p>
+                </div>
             </div>
         </div>
 
         <!-- Sidebar -->
-        <div style="display:flex;flex-direction:column;gap:16px">
-
-            <div class="card">
-                <div class="card-body">
-                    <h3 style="font-size:0.8rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">
-                        Course Details
-                    </h3>
-                    <ul class="detail-list">
-                        <li>
-                            <span class="dl-key">Category</span>
-                            <span class="dl-val">
-                <span class="badge"
-                      th:classappend="${course.category.name() == 'MATHEMATICS'} ? 'badge-yellow' :
-                                       (${course.category.name() == 'BUSINESS'}  ? 'badge-teal'   :
-                                       (${course.category.name() == 'SCIENCE'}   ? 'badge-teal'   :
-                                       (${course.category.name() == 'LANGUAGE'}  ? 'badge-gray'   :
-                                       (${course.category.name() == 'ARTS'}      ? 'badge-red'    : 'badge-blue'))))"
-                      th:text="${course.category.name().charAt(0) + course.category.name().substring(1).toLowerCase()}">
-                </span>
-              </span>
-                        </li>
-                        <li>
-                            <span class="dl-key">Status</span>
-                            <span class="dl-val">
-                <span class="badge"
-                      th:classappend="${course.status.name() == 'ACTIVE'}  ? 'badge-success' :
-                                       (${course.status.name() == 'DRAFT'} ? 'badge-yellow'  : 'badge-gray')"
-                      th:text="${course.status.name().charAt(0) + course.status.name().substring(1).toLowerCase()}">
-                </span>
-              </span>
-                        </li>
-                        <li>
-                            <span class="dl-key">Duration</span>
-                            <span class="dl-val" th:text="${course.durationWeeks + ' weeks'}">12 weeks</span>
-                        </li>
-                        <li>
-                            <span class="dl-key">Max Students</span>
-                            <span class="dl-val" th:text="${course.maxStudents}">50</span>
-                        </li>
-                        <li>
-                            <span class="dl-key">Course ID</span>
-                            <span class="dl-val">
-                <span class="code-pill" th:text="${'#' + course.courseId}">#1</span>
-              </span>
-                        </li>
-                        <li>
-                            <span class="dl-key">Created</span>
-                            <span class="dl-val text-muted" style="font-size:0.8rem"
-                                  th:text="${#temporals.format(course.createdAt, 'MMM d, yyyy')}">Jan 1, 2026</span>
-                        </li>
-                    </ul>
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header fw-semibold bg-light">
+                    <i class="bi bi-info-circle me-2"></i>Course Details
                 </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span class="text-muted">Category</span>
+                        <span class="badge"
+                              th:classappend="${course.category.name() == 'MATHEMATICS'} ? 'bg-warning text-dark' :
+                                   (${course.category.name() == 'BUSINESS'}  ? 'bg-info text-dark'    :
+                                   (${course.category.name() == 'SCIENCE'}   ? 'bg-info text-dark'    :
+                                   (${course.category.name() == 'LANGUAGE'}  ? 'bg-secondary'         :
+                                   (${course.category.name() == 'ARTS'}      ? 'bg-danger'            : 'bg-primary'))))"
+                              th:text="${course.category.name().charAt(0) + course.category.name().substring(1).toLowerCase()}">
+            </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span class="text-muted">Duration</span>
+                        <strong th:text="${course.durationWeeks + ' weeks'}">12 weeks</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span class="text-muted">Max Students</span>
+                        <strong th:text="${course.maxStudents}">50</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span class="text-muted">Course ID</span>
+                        <code th:text="${'#' + course.courseId}">#1</code>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span class="text-muted">Created</span>
+                        <small class="text-muted"
+                               th:text="${#temporals.format(course.createdAt, 'MMM d, yyyy')}">Jan 1, 2026</small>
+                    </li>
+                </ul>
             </div>
 
             <!-- Actions -->
-            <div style="display:flex;flex-direction:column;gap:8px">
-                <a th:href="@{/courses}" class="btn btn-ghost" style="justify-content:center">
-                    ← Back to All Courses
+            <div class="d-grid gap-2">
+                <a th:href="@{/courses}" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left me-2"></i>Back to All Courses
                 </a>
-                <a th:href="@{/courses/new}" class="btn btn-primary" style="justify-content:center">
-                    + Add Another Course
+                <a th:href="@{/courses/new}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-2"></i>Add Another Course
                 </a>
             </div>
-
         </div>
-    </div>
 
+    </div>
 </div>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>

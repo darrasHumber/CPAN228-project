@@ -2,13 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<footer th:fragment="footer">
-    <strong>EduConnect</strong> – Online Learning Platform &nbsp;|&nbsp;
-    CPAN-228 &nbsp;&middot;&nbsp; Group 20 &nbsp;&middot;&nbsp; AMAL Coders &nbsp;|&nbsp;
-    Ahmed &nbsp;&middot;&nbsp; Mohammed &nbsp;&middot;&nbsp; Alaa &nbsp;&middot;&nbsp; Lana
+<footer th:fragment="footer" class="bg-dark text-white mt-5 py-4">
+    <div class="container text-center">
+        <p class="mb-1 fw-semibold">EduConnect – Online Learning Platform</p>
+        <p class="mb-0 text-muted small">
+            CPAN-228 &nbsp;&middot;&nbsp; Group 20 &nbsp;&middot;&nbsp; AMAL Coders
+        </p>
+    </div>
 </footer>
 
 <th:block th:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/js/main.js}"></script>
 </th:block>
 

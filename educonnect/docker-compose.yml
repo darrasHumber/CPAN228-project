@@ -1,0 +1,55 @@
+# ─────────────────────────────────────────────
+#  EduConnect – Docker Compose
+#  Run: docker compose up --build
+# ─────────────────────────────────────────────
+
+services:
+
+  # ── MySQL Database ──────────────────────────
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    networks:
+      - educonnect-network
+    environment:
+      MYSQL_DATABASE: educonnect
+      MYSQL_USER: educonnect_user
+      MYSQL_PASSWORD: educonnect_pass
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1",
+             "-u", "educonnect_user", "-peduconnect_pass"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 40s
+
+  # ── Spring Boot App ─────────────────────────
+  app:
+    build: .
+    restart: unless-stopped
+    networks:
+      - educonnect-network
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: qa
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/educonnect?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: educonnect_user
+      SPRING_DATASOURCE_PASSWORD: educonnect_pass
+    depends_on:
+      db:
+        condition: service_healthy
+
+# ── Networks ──────────────────────────────────
+networks:
+  educonnect-network:
+    driver: bridge
+
+# ── Volumes ───────────────────────────────────
+volumes:
+  mysql_data:
